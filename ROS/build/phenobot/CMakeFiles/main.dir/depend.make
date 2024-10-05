@@ -79,6 +79,8 @@ phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/sensor_m
 phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/sensor_msgs/NavSatStatus.h
 phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/sensor_msgs/RegionOfInterest.h
 phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/sensor_msgs/image_encodings.h
+phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/serial/serial.h
+phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/serial/v8stdint.h
 phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/std_msgs/Empty.h
 phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/std_msgs/Header.h
 phenobot/CMakeFiles/main.dir/src/flirBFS.cpp.o: /opt/ros/noetic/include/std_msgs/String.h
