@@ -1,0 +1,8 @@
+prefix=/home/cairlab/Projects/ROS/devel
+
+Name: phenobot_camera
+Description: Description of phenobot_camera
+Version: 0.1.0
+Cflags: -I/home/cairlab/Projects/ROS/devel/include
+Libs: -L${prefix}/lib 
+Requires: 

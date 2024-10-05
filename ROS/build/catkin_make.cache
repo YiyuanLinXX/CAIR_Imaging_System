@@ -1,0 +1,2 @@
+mjpeg_server:phenobot:serial_example
+-DCATKIN_DEVEL_PREFIX=/home/cairlab/Projects/ROS/devel -DCMAKE_INSTALL_PREFIX=/home/cairlab/Projects/ROS/install -G Unix Makefiles

@@ -1,0 +1,8 @@
+prefix=/home/cairlab/Projects/ros_temp/install
+
+Name: gps_recorder
+Description: Description of gps_recorder
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: 

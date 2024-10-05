@@ -1,0 +1,4 @@
+<launch>
+  <!--to launch qt gui node"/-->
+  <node name="qt_gps_node" pkg="gps_publisher" type="qt_gps_app" output="screen"/>
+</launch>

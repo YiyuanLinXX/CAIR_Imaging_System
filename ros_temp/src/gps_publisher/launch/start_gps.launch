@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+  <arg name="com_port" default="/dev/ttyACM1"/>
+  <arg name="baud" default="38400"/>
+
+  <node name="gps_node" pkg="gps_publisher" type="gps_node.py" output="screen">
+    <param name="com_port" value="$(arg com_port)"/>
+    <param name="baud" value="$(arg baud)"/>
+  </node>
+</launch>

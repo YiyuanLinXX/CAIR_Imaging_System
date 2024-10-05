@@ -1,0 +1,68 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.5"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "gps_qt_gui",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "gps_qt_gui::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gps_qt_gui-Debug-b03ce7241a354859ff9e.json",
+					"name" : "gps_qt_gui",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "gps_qt_gui_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gps_qt_gui_autogen-Debug-c564b8268b3e21329d1f.json",
+					"name" : "gps_qt_gui_autogen",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/phenobot4/Projects/ROS_QT/gps_qt_app/build-gps_qt_gui-Desktop-Debug",
+		"source" : "/home/phenobot4/Projects/ROS_QT/gps_qt_app/gps_qt_gui"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 0
+	}
+}

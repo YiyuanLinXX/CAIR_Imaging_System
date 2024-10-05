@@ -1,0 +1,615 @@
+
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"><meta charset="utf-8" />
+
+<link rel="stylesheet" href="w3.css">
+<link rel="stylesheet" href="w3-theme-blue.css">
+<script src="easeljs.js"></script>
+<script type="text/javascript" src="eventemitter2.min.js"></script>
+<script type="text/javascript" src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+<script src="roslib.js"></script>
+
+
+<script type="text/javascript" src="ros2d.min.js"></script>
+<script type="text/javascript" src="http://static.robotwebtools.org/nav2djs/current/nav2d.min.js"></script>
+
+<script src="ros2d.js"></script>
+
+<script type="text/javascript">
+  var pi_img = new Image(); 
+  var ip = location.host;
+</script>
+
+<!.........................functions..................................>
+
+<script type="text/javascript" type="text/javascript">
+	function openWindow(evt, windowName) {
+	  var i, x, tablinks;
+	  x = document.getElementsByClassName("window");
+	  for (i = 0; i < x.length; i++) {
+		x[i].style.display = "none";
+	  }
+	  tablinks = document.getElementsByClassName("tablink");
+	  for (i = 0; i < x.length; i++) {
+		tablinks[i].className = tablinks[i].className.replace(" w3-red", ""); 
+	  }
+	  document.getElementById(windowName).style.display = "block";
+	  evt.currentTarget.className += " w3-red";
+	}
+
+  var ip = "127.0.0.1"; //Emlid Reach RS+ @ WV USDA:  192.168.42.91
+  var x = 0;
+  var z = 0;
+  var scale = 0;
+  var scale_max = 0.2;
+  var out_message = "";
+
+  // Connecting to ROS
+  // -----------------
+  var newURL = "ws://" + ip + ":9090";
+  var ros = new ROSLIB.Ros({
+    url : newURL
+  });
+  
+	var camera_id_vec=[];
+	//set parameters of the camera
+	function publishCameraParameter(){
+
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+				console.log("work on "+camera_id_vec[id]);
+				
+				var camera_id = camera_id_vec[id]; 
+		
+				var exposure_value = document.getElementById("ExposureTime").value;
+
+				var gain_value = document.getElementById("Gain").value;
+
+				var balance_ratio_value = document.getElementById("BalanceRatio").value;
+
+				var frame_rate_value = document.getElementById("FrameRate").value;
+
+				console.log('set the exposure of ' + camera_id + ' as: '+ exposure_value);
+				
+				console.log('set the balance ratio of ' + camera_id + ' as: '+ balance_ratio_value);
+				console.log('set the frame rate of ' + camera_id + ' as: '+ frame_rate_value);
+
+
+	//publish
+
+				var exposureTimeTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/exposureTime',
+				  messageType : 'std_msgs/String'
+				});
+
+				var exposure_time_out = new ROSLIB.Message({});
+				exposure_time_out.data =exposure_value;
+				exposureTimeTopic.publish(exposure_time_out);
+
+
+
+
+
+	//publish
+				var gainTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/gain',
+				  messageType : 'std_msgs/String'
+				});
+
+				var gain_out = new ROSLIB.Message({});
+				gain_out.data =gain_value;
+				gainTopic.publish(gain_out);
+
+	//publish
+				var balanceRatioTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/balanceRatio',
+				  messageType : 'std_msgs/String'
+				});
+
+				var balance_ratio_out = new ROSLIB.Message({});
+				balance_ratio_out.data =balance_ratio_value;
+				balanceRatioTopic.publish(balance_ratio_out);
+
+					//publish frame rate
+				var frameRateTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/frameRate',
+				  messageType : 'std_msgs/String'
+				});
+
+				var frame_rate_out = new ROSLIB.Message({});
+				frame_rate_out.data =frame_rate_value;
+				frameRateTopic.publish(frame_rate_out);
+				
+			} //for cameraid
+			
+
+
+	} // end set parameters of the camera
+
+function publishFolderName(){
+
+//publish trigger topic
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+
+			var folder_name_value = document.getElementById("FolderName").value;
+
+			console.log('create the folder: '+ folder_name_value);
+			alert('create the folder: '+ folder_name_value);
+
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id]; 
+				
+				var triggerTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/folderName',
+				  messageType : 'std_msgs/String'
+				});
+
+				
+
+
+				var out_string = new ROSLIB.Message({});
+				out_string.data =folder_name_value;
+				triggerTopic.publish(out_string);
+			
+			} //for camera id
+
+	} // end camera trigger
+
+function publishCameraTrigger(){
+
+//publish trigger topic
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id]; 
+				
+				var triggerTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/trigger',
+				  messageType : 'std_msgs/String'
+				});
+
+				var out_string = new ROSLIB.Message({});
+				out_string.data ="trigger the camera";
+				triggerTopic.publish(out_string);
+			
+			} //for camera id
+
+	} // end camera trigger
+
+function publishCameraCapture(){
+
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id]; 
+				
+				var captureTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/capture',
+				  messageType : 'std_msgs/String'
+				});
+
+				var capture_out = new ROSLIB.Message({});
+				capture_out.data ="start the capturing";
+				captureTopic.publish(capture_out);
+			}
+
+	} 
+
+function publishCameraConnect(){
+		
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id];
+		
+				var connectTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/connect',
+				  messageType : 'std_msgs/String'
+				});
+
+				var connect_out = new ROSLIB.Message({});
+				connect_out.data ="connect the camera";
+				connectTopic.publish(connect_out);
+
+			}
+	} 
+
+function publishCameraContTrigger(){
+
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id];
+				
+				var HTriggerTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/contTrigger',
+				  messageType : 'std_msgs/String'
+				});
+
+				var htrigger_out = new ROSLIB.Message({});
+				htrigger_out.data ="continous trigger the camera by hardware";
+				HTriggerTopic.publish(htrigger_out);
+			}
+	} 
+	
+function publishCameraStopContTrigger(){
+
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id];
+		
+				var SHTriggerTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/stopContTrigger',
+				  messageType : 'std_msgs/String'
+				});
+
+				var shtrigger_out = new ROSLIB.Message({});
+				shtrigger_out.data ="stop continous trigger the camera by hardware";
+				SHTriggerTopic.publish(shtrigger_out);
+
+			}
+
+	} 
+
+function publishCameraDisconnect(){
+
+//publish trigger topic
+
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id];
+			
+				var disconnectTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/disconnect',
+				  messageType : 'std_msgs/String'
+				});
+
+				var disconnect_out = new ROSLIB.Message({});
+				disconnect_out.data ="disconnect the camera";
+				disconnectTopic.publish(disconnect_out);
+
+			}
+	} // end camera trigger
+
+function publishPreview(){
+
+//publish trigger topic
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+				console.log(camera_id_vec[id]);
+				console.log("start preview\n");
+				var camera_id = camera_id_vec[id];
+			
+				var previewTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/startPreview',
+				  messageType : 'std_msgs/String'
+				});
+
+				var preview_out = new ROSLIB.Message({});
+				preview_out.data ="start preview";
+				previewTopic.publish(preview_out);
+
+			}
+	} // end camera trigger
+
+function publishStopPreview(){
+
+//publish trigger topic
+			var cam_length = camera_id_vec.length;
+			
+			if(cam_length<1){
+				console.log("no camera selected\n");
+				alert("no camera selected!\n");
+				return
+			}
+			for (var id=0;id<cam_length; id++){
+			
+				var camera_id = camera_id_vec[id];
+			
+				var stopPreviewTopic = new ROSLIB.Topic({
+				  ros : ros,
+				  name : '/robot/'+camera_id+'/stopPreview',
+				  messageType : 'std_msgs/String'
+				});
+
+				var preview_out = new ROSLIB.Message({});
+				preview_out.data ="stop preview";
+				stopPreviewTopic.publish(preview_out);
+
+			}
+	} // end camera trigger
+
+ /**
+   * Setup all GUI elements when the page is loaded.
+   */
+  function init() {
+    // Connect to ROS.
+    var ros = new ROSLIB.Ros({
+      url : 'ws://'+ip+':9090'
+    });
+
+    // Create the main viewer.
+    var viewer = new ROS2D.Viewer({
+      divID : 'nav',
+      width : 750,
+      height : 800
+    });
+
+    // Setup the nav client.
+    var nav = NAV2D.OccupancyGridClientNav({
+      ros : ros,
+      rootObject : viewer.scene,
+      viewer : viewer,
+      serverName : '/pr2_move_base'
+    });
+  }
+
+//foe penostereo check box
+function PhenoStereo1CheckFunction() {
+  var checkBox = document.getElementById("PS1Check");
+  if (checkBox.checked == true){
+	console.log("PhenoStereo1 is CHECKED!");
+	camera_id_vec.push("PhenoStereo1");
+  } 
+}
+
+function PhenoStereo2CheckFunction() {
+  var checkBox = document.getElementById("PS2Check");
+  if (checkBox.checked == true){
+	console.log("PhenoStereo2 is CHECKED!");
+	camera_id_vec.push("PhenoStereo2");
+  } 
+}
+
+function PhenoStereo3CheckFunction() {
+  var checkBox = document.getElementById("PS3Check");
+  if (checkBox.checked == true){
+	console.log("PhenoStereo3 is CHECKED!");
+	camera_id_vec.push("PhenoStereo3");
+  } 
+}
+
+function PhenoStereo4CheckFunction() {
+  var checkBox = document.getElementById("PS4Check");
+  if (checkBox.checked == true){
+	console.log("PhenoStereo4 is CHECKED!");
+	camera_id_vec.push("PhenoStereo4");
+  } 
+}
+
+</script>
+
+<body onload="init()">
+
+<div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:130px">
+  <h5 class="w3-bar-item">Menu</h5>
+  <button class="w3-bar-item w3-button tablink" onclick="openWindow(event, 'Camera')">Camera</button>
+  <button class="w3-bar-item w3-button tablink" onclick="openWindow(event, 'Navigation')">Navigation</button>
+  <button class="w3-bar-item w3-button tablink" onclick="openWindow(event, 'Sensor Msgs')">Sensor Msgs</button>
+</div>
+
+<div style="margin-left:130px">
+
+  <div class="w3-container w3-theme w3-card">
+	  <h1>Phenobot Web Interface</h1>
+  </div>
+  <div id="Camera" class="w3-container window" style="display:none">
+    <h2>Camera</h2>
+    <p>Allows remote access to the family robot.</p>
+
+	<label for="PS1Check">PhenoStereo1:</label> 
+	<input type="checkbox" id="PS1Check" onclick="PhenoStereo1CheckFunction()">
+
+	<label for="PS2Check">PhenoStereo2:</label> 
+	<input type="checkbox" id="PS2Check" onclick="PhenoStereo2CheckFunction()">
+	
+	<label for="PS3Check">PhenoStereo3:</label> 
+	<input type="checkbox" id="PS3Check" onclick="PhenoStereo3CheckFunction()">
+	
+	<label for="PS4Check">PhenoStereo4:</label> 
+	<input type="checkbox" id="PS4Check" onclick="PhenoStereo4CheckFunction()">
+	
+
+	<p></p> 
+    ExposureTime: <input type="number" id="ExposureTime" value="400">
+	<p></p>
+
+
+	<p></p> 
+    Gain: <input type="number" id="Gain" value="6" >
+	<p></p>
+
+	<p></p> 
+    BalanceRatio: <input type="number" id="BalanceRatio" value="1.2" >
+	<p></p>
+
+	<p></p> 
+    FrameRate: <input type="number" id="FrameRate" value="4" >
+	<p></p>
+
+	<p></p> 
+    FolderName: <input type="text" id="FolderName" value="row1" >
+	<p></p>
+
+	<p></p>
+    <input type="button" id="publish"  value="publish"  onclick="publishCameraParameter();" />
+	<p></p>
+
+	<p></p>
+    <input type="button" id="connect"  value="connect"  onclick="publishCameraConnect();" />
+	<p></p>
+
+	<p></p>
+    <input type="button" id="create folder"  value="create_folder"  onclick="publishFolderName();" />
+	<p></p>
+
+	<p></p>
+    <input type="button" id="start_capturing"  value="start_capturing"  onclick="publishCameraCapture();" />
+	<p></p>
+	
+	<p></p>
+    <input type="button" id="cont_trigger"  value="cont_trigger"  onclick="publishCameraContTrigger();" />
+	<p></p>
+
+	<p></p>
+    <input type="button" id="stop_cont_trigger"  value="stop_cont_trigger"  onclick="publishCameraStopContTrigger();" />
+	<p></p>
+
+	<p></p>
+    <input type="button" id="start_preview"  value="start_preview"  onclick="publishPreview();" />
+	<p></p>
+
+	<p></p>
+    <input type="button" id="stop_preview"  value="stop_preview"  onclick="publishStopPreview();" />
+	<p></p>
+
+	<p></p>
+    <input type="button" id="disconnect"  value="disconnect"  onclick="publishCameraDisconnect();" />
+	<p></p>
+	
+	<p></p> 
+	
+	<p>PhenoStereo1&2 preview</p>
+	<iframe src= '' id= 'target_frame1a' name='target_frame1a' width="512" Height="384"></iframe>
+
+	<iframe src= '' id= 'target_frame1b' name='target_frame1b' width="512" Height="384"></iframe>
+	<p>PhenoStereo3&4 preview</p>
+	<iframe src= '' id= 'target_frame2a' name='target_frame2a' width="512" Height="384"></iframe>
+		
+	<iframe src= '' id= 'target_frame2b' name='target_frame2b' width="512" Height="384"></iframe>
+    
+	<p>PhenoStereo3 preview</p>
+	<iframe src= '' id= 'target_frame3a' name='target_frame3a' width="512" Height="384"></iframe>
+		
+	<iframe src= '' id= 'target_frame3b' name='target_frame3b' width="512" Height="384"></iframe>
+    
+	<p>PhenoStereo4 preview</p>
+	<iframe src= '' id= 'target_frame4a' name='target_frame4a' width="512" Height="384"></iframe>
+		
+	<iframe src= '' id= 'target_frame4b' name='target_frame4b' width="512" Height="384"></iframe>
+	
+	<p></p>
+
+    <script>
+    	// put the video stream into the target frame
+		//need to run rosrun mjpeg_server mjpeg_server
+	document.getElementById('target_frame1a').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera1/image";
+	document.getElementById('target_frame1b').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera2/image";
+	document.getElementById('target_frame2a').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera3/image";
+	document.getElementById('target_frame2b').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera4/image";
+	document.getElementById('target_frame3a').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera5/image";//FEA
+	document.getElementById('target_frame3b').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera6/image";
+	//document.getElementById('target_frame4a').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera7/image";
+	//document.getElementById('target_frame4b').src = "http://" + ip + ":8080/stream?topic=/robot/PhenoStereo1/camera8/image";
+	
+    </script>
+
+  </div> <!..camera class>
+
+  <div id="Navigation" class="w3-container window" style="display:none">
+    <h2>Navigation Map</h2> 
+	<div id="nav"></div>
+
+  </div>
+
+  <div id="Sensor Msgs" class="w3-container window" style="display:none">
+    <h2>Sensor Msgs</h2>
+    <p>Allows remote access to the motor status.</p>
+
+    <select id="MotorID">
+    <option>Motor 1</option>
+    <option>Motor 2</option>
+    <option>Motor 3</option>
+    <option>Motor 4</option>
+    </select>
+
+	<p></p>
+    Voltage: <input type="voltage" id="voltage" value="24">
+	<p></p>
+    <select id="IMU">
+    <option>IMU 1</option>
+    <option>IMU 2</option>
+    </select> 
+	<p></p>
+	pitch: <input type="pitch" id="pitch" value="24">
+	yaw: <input type="yaw" id="yaw" value="24">
+	roll: <input type="roll" id="roll" value="24">
+
+  </div>
+
+</div>
+
+
+</body>
+</html>
+

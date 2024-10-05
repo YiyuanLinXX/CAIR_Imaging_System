@@ -1,0 +1,8 @@
+prefix=/home/cairlab/Projects/ros_temp/devel
+
+Name: gps_recorder
+Description: Description of gps_recorder
+Version: 0.0.0
+Cflags: -I/home/cairlab/Projects/ros_temp/src/gps_recorder/include
+Libs: -L${prefix}/lib 
+Requires: 

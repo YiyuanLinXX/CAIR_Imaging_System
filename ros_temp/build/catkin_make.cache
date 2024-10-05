@@ -1,0 +1,2 @@
+gps_publisher:gps_recorder
+-DCATKIN_DEVEL_PREFIX=/home/cairlab/Projects/ros_temp/devel -DCMAKE_INSTALL_PREFIX=/home/cairlab/Projects/ros_temp/install -G Unix Makefiles
