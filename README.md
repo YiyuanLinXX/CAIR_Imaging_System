@@ -32,7 +32,7 @@ We hardcoded the user name and folder path in the software, so you will need to 
 
 - Install packages for Python by running:
   ```bash
-  pip3 install pyserial pynmea2
+  pip3 install pillow numpy opencv-python tqdm argparse pandas matplotlib
   ```
 
   
