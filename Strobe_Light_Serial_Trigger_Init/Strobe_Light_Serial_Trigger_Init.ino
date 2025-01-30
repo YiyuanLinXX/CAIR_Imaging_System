@@ -64,6 +64,9 @@ void loop() {
   }
   else if(r=='e'){
     flag=0;
+    digitalWrite(dischargePin, LOW);
+    digitalWrite(chargePin, LOW);
+    digitalWrite(cam, HIGH);
   }
   else{
     flag=flag;
