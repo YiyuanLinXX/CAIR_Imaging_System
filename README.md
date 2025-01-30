@@ -1,36 +1,66 @@
+# README
+
+This repository includes the software for our imaging system. This is a general introduction without details about hardware configuration because the hardware settings are totally different among deployed locations. Please refer to the specific one for more detailed instruction.
+
+The program passed all tests with ROS Noetic on Ubuntu 20.04.
+
+**NOTE**: For the other ROS versions and Ubuntu versions, there is no guarantee that it can run with other ROS versions or OS.
+
+
+
 ## Prerequisite
+
+We hardcoded the user name and folder path in the software, so you will need to set your user name as `cairlab`.
 
 - Username: cairlab
 - System: Ubntu 20.04
-- Opencv 3.4.3 (c++)
-- ROS1
-- ROS Bridger Server (sudo apt-get install ros-<distro>-rosbridge-server)
-- Spinnaker SDK 2.6.0.157
 
+- Install [Spinnaker SDK](https://www.teledynevisionsolutions.com/support/support-center/software-firmware-downloads/iis/spinnaker-sdk-download/spinnaker-sdk--download-files/?pn=Spinnaker+SDK&vn=Spinnaker+SDK). If you are installing Spinnaker 2.6.0.160 (which is the version we used but not listed on the official website), you can also check the installation files for Ubuntu 20.04 in the folder `/spinnaker-2.6.0.160-amd64`.
 
+- Install [OpenCV 3.4.3](https://docs.opencv.org/3.4.3/) for C++.
+
+- Install packages for your ROS distro by running:
+
+  ```bash
+  sudo apt-get install ros-<distro>-serial ros-<distro>-rosbridge-server qt5-default qtcreator
+  ```
+
+  We use ROS 1 Noetic, so we put the following command to install all the needed packages.
+  ```bash
+  sudo apt-get install ros-noetic-serial ros-noetic-rosbridge-server qt5-default qtcreator
+  ```
+
+- Install packages for Python by running:
+  ```bash
+  pip3 install pyserial pynmea2
+  ```
+
+  
 
 ## Usage
 
-1. Launch the camera service
+0. Make sure all the hardware connection are correct, ensure the status of RTK correction and GPS coordinates is FIX.
+
+1. Double-click to run the executable file `start_gps.sh` or run it in the terminal. Select the port and baud rate for your GPS receiver, then press `Start GPS` and wait for a while until it display "GPS Ready". Then enter the folder name you want to save the raw GPS data in the blank after "Start Recording". The raw data of GPS will be saved in `Documents/gps_data/{folder_name_you_set}`.
+1. Open a terminal (press `CTRL+ALT+T`, and launch the camera service
 
 ```bash
 roslaunch phenobot_camera start_camera.launch
 ```
 
-2. Set the correct ip address in `PhenobotWebInterface-multiCam.html` 
+3. Set the IP address as the localhost "127.0.0.1" or the correct IP address of your device in `PhenobotWebInterface-multiCam.html` 
 
 ```html
-  var ip = "10.48.29.143"; //set the ip address as it of the computer
+  var ip = "127.0.0.1"; // or set the ip address as it of the computer
 ```
 
-3. Open `PhenobotWebInterface-multiCam.html` with Google Chrome Browser, and click `Camera` button on the life sidebar.
-4. Refresh the browser, and if the connection is good, you will see output in the terminal as follow
+4. Open `PhenobotWebInterface-multiCam.html` with Google Chrome Browser, and click `Camera` button on the life sidebar. Refresh the browser, and if the connection is good, you will see output in the terminal as follow
 
 ```bash
 Client connected.  1 clients total.
 ```
 
-5. Choose camera(s) you need to connect by clicking `PhenoStereo1` and once you finish all the basic setting in the browser, click `connect` button in the web interface. If the connection is successful, the output will be like follow
+5. Check `PhenoStereo1` and then click `connect` button in the web interface. If the connection is successful, the output will be like follow:
 
 ```bash
 *** CONFIGURING CHUNK DATA ***
@@ -54,57 +84,66 @@ Enabling entries...
 	ExposureEndLineStatusAll: enabled
 camID: 0143EF86
 connect to camera 0143EF86
-Cameras connected: 1
+connect to camera 0143EF87
+Cameras connected: 2
 ```
 
-8. Set the exposure time, gain, balance ratio, frame rate by entering in the web interface, and click `publish` to save to settings.
-9. Set the folder name that you want to save your images in the web interface, otherwise the images captured will not be saved!
-   :star: **Note**: there displays pre-filled content "row1" in the blank, but you still need to click `create_folder` to set the path to save images. The default folder doesn't exist and no images will be saved if you don't create a new folder. The data will be saved in `home/cairlab/Data/{folername_you_set}`
-10. Click `start_capturing` to start the camera
-11. Click `cont_trigger` to make the camera receive trigger signals from GPIO
-12. Click `start_preview` to display the images captured in the web interface and save images in JPEG format
-13. To stop functions in the web interface, click corresponding button with "stop"
-14. Click `disconnect` to disconnect cameras before stopping the program or unplugging cameras
+6. Set the folder name (**==SAME== as the one you use for the GPS data**, for convenience) in the blank of "FolderName" in the web interface to save your images, otherwise the images captured will **NOT** be saved! The data will be saved in `home/cairlab/Data/{folder_name_you_set}`
+
+   **Note**: there displays pre-filled content "row1" in the blank, but you still need to click `create_folder` to set the path to save images. The default folder doesn't exist and no images will be saved if you don't create a new folder.
+
+7. Set the exposure time, gain, balance ratio, frame rate by entering in the web interface, and click `publish` to save to settings.
+
+8. Click `start_capturing` in the web interface to start the camera, then click `cont_trigger` in the web interface to trigger the camera through GPIO.
+
+9. (Optional) Click `start_preview` to display the images captured in the web interface and save images in JPEG format.
+
+   **NOTE**: To stop functions in the web interface, click corresponding button with "stop".
+
+10. After data collection, click `stop_cont_trigger` first, and then click `disconnect` to disconnect the camera(s) and stop the image data collection. Now you can close the web interface. Close all the terminals and windows. Check the data collected in folder `Data` and folder `gps_data`. 
 
 
 
-## Functions
+## Functions and Buttons in Web Interface
 
-- publish
+- `publish`
   - change and publish the parameters setting such as exposure time, balance ratio
-- connect
+- `connect`
   - connect cameras
-- create_folder
+- `create_folder`
   - create the folder to save images captured
-- start_capturing
+- `start_capturing`
   - start capturing images
-- cont_trigger
+- `cont_trigger`
   - start receiving continuous trigger signals from GPIO
-- stop_cont_trigger
+- `stop_cont_trigger`
   - stop receiving continuous trigger signals from GPIO
-- start_preview
+- `start_preview`
   - display images in the web interface, and the images will be saved in JPEG format
-- stop_preview
+- `stop_preview`
   - stop displaying images in the web interface, and the images will be saved in PGM format
-- disconnect
+- `disconnect`
   - disconnect cameras
 
 
 
 ## Timestamp.csv
 
-```csv
-1,2024-04-08-16-09-29-770,1712606969.770175,1,57956530512
-2,2024-04-08-16-09-32-209,1712606972.209874,2,58541592320
-3,2024-04-08-16-09-32-309,1712606972.309978,3,59126749112
-4,2024-04-08-16-09-32-838,1712606972.838278,4,59711905808
-```
+| Frame ID | Computer Time           | ROS Time Stamp | Chunk Frame ID | Chunk Time  | Latitude | Longitude |
+| -------- | ----------------------- | -------------- | -------------- | ----------- | -------- | --------- |
+| 1        | 2024-09-27-15-48-36-040 | 1727466516     | 9737           | 6.25821E+12 | 42.8786  | -77.0167  |
+| 2        | 2024-09-27-15-48-36-290 | 1727466516     | 9738           | 6.25873E+12 | 42.8786  | -77.0167  |
+| 3        | 2024-09-27-15-48-37-855 | 1727466518     | 9739           | 6.25926E+12 | 42.8786  | -77.0167  |
+| 4        | 2024-09-27-15-48-38-374 | 1727466518     | 9740           | 6.25978E+12 | 42.8786  | -77.0167  |
+| ...      | ...                     | ...            | ...            | ...         | ...      |           |
 
-- column 1: the frame ID of the saved image
-- column 2: computer time (less accurate)
-- column 3: ROS time stamp (less accurate)
-- column 4: Chunk frame ID (the frame ID of the captured image)
-- column 5: Chunk time (very accurate, in nanosecond level)
+- Frame ID: ID of the **saved** images
+- Computer time: less accurate time stamp
+- ROS time stamp:  less accurate time stamp
+- Chunk frame ID : ID of the **captured** images (may not be saved)
+- Chunk time: very accurate time stamp, in nanosecond (ns) level
+- Latitude: GPS coordinate
+- Longitude: GPS coordinate
 
 
 
