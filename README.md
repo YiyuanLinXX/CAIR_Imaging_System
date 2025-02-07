@@ -165,9 +165,7 @@ Cameras connected: 2
 
 
 
-## Reference
+## Data Visualization and Conversion
 
-[Synchronizing a Blackfly or Grasshopper3 GigE Camera’s Time to PC Time](https://www.flir.com/support-center/iis/machine-vision/application-note/synchronizing-a-blackfly-or-grasshopper3-gige-cameras-time-to-pc-time/)
-
-
+In our basic setup, the data will be saved in `PGM` format which is gray scale optimized for efficient data collection. You can use the python script in `/utils/convert_pgm2png.py` to convert the images into `PNG` format which will be RGB.
 
