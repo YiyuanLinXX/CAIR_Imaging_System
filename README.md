@@ -167,5 +167,16 @@ Cameras connected: 2
 
 ## Data Visualization and Conversion
 
-In our basic setup, the data will be saved in `PGM` format which is gray scale optimized for efficient data collection. You can use the python script in `/utils/convert_pgm2png.py` to convert the images into `PNG` format which will be RGB.
+To use the 2 visualization adn conversion software, please firstly  make sure that you grant the permissions for executing the Bash files by right clicking the `convert_pgm2png.bash` file and `gps_trajectory_plot.bash`, then go to `properties -> Permissions -> Execute`, make sure you chech the `Allow executing file as program` for both file.
 
+
+
+In our basic setup, the data will be saved in `PGM` format which is gray scale optimized for efficient data collection. To convert the the images into `PNG` format which will be RGB, please **double click** `convert_pgm2png.bash` to run this simple software, and choose the input and output directory for the images data. Then click `Start` to convert the images from the input directory.
+
+
+
+We also provide a simple application to plot the trajectory by using the GPS data collected. You can **double click** `gps_trajectory_plot.bash` to run this simple software, and load the recorded GPS data from `/home/cairlab/Document/gps_data`. You can also save the plot on the computer.
+
+
+
+For more details, please check the codebase in `/utils`.
