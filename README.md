@@ -60,13 +60,13 @@ We hard-coded the user name and folder path in the software, so you will need to
 0. Make sure all the hardware connection are correct, ensure the status of RTK correction and GPS coordinates is FIX.
 
 1. Double-click to run the executable file `start_gps.sh` or run it in the terminal. Select the port and baud rate for your GPS receiver, then press `Start GPS` and wait for a while until it display "GPS Ready". Then enter the folder name you want to save the raw GPS data in the blank after "Start Recording". The raw data of GPS will be saved in `Documents/gps_data/{folder_name_you_set}`.
-1. Open a terminal (press `CTRL+ALT+T`, and launch the camera service
+1. Open a terminal (press `CTRL+ALT+T`), and launch the camera service
 
 ```bash
 roslaunch phenobot_camera start_camera.launch
 ```
 
-3. Set the IP address as the localhost "127.0.0.1" or the correct IP address of your device in `PhenobotWebInterface-multiCam.html` 
+3. Set the IP address as the localhost "127.0.0.1" (recommended) or the correct IP address (very likely to change) of your device in `PhenobotWebInterface-multiCam.html` 
 
 ```html
   var ip = "127.0.0.1"; // or set the ip address as it of the computer
