@@ -1,0 +1,17 @@
+{
+    "base_save_path" : "/media/nvidia/1612EE1F6383BC59",//"/home/nvidia/Projects/sensorClient",
+    "module_mode" : "GPIO", // "Soft", "GPIO" or "Client"
+    "cameras" : [
+        {
+            "serial":"17122231",
+            "ExposureTime":10000,
+            "TriggerSource":"Software" // Will be overrided to "Line0" if not in "Soft" mode
+        },
+        {
+            "serial":"17122241",
+            "ExposureTime":10000,
+            "TriggerSource":"Software"
+        }
+    ],
+    "save_fps" : 15.0
+}
