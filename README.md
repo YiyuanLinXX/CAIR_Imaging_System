@@ -10,7 +10,7 @@ The program passed all tests with ROS Noetic on Ubuntu 20.04.
 
 ## Prerequisite
 
-We hardcoded the user name and folder path in the software, so you will need to set your user name as `cairlab`.
+We hard-coded the user name and folder path in the software, so you will need to set your user name as `cairlab`.
 
 - Username: cairlab
 - System: Ubntu 20.04
@@ -36,13 +36,24 @@ We hardcoded the user name and folder path in the software, so you will need to 
   ```
 
 
+- Build the ROS packages
+  ```bash
+  cd /home/cairlab/CAIR_Imaging_System/ROS
+  catkin_make
+  cd /home/cairlab/CAIR_Imaging_System/ros_temp
+  catkin_make
+  ```
+  
 - To let the terminal source the bash files by default, put the following source command sto your `.bashrc` file by running:
+  
   ```bash
   echo "" >> ~/.bashrc
   echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
   echo "source /home/cairlab/CAIR_Imaging_System/ROS/devel/setup.sh" >> ~/.bashrc
   echo "source /home/cairlab/CAIR_Imaging_System/ros_temp/devel/setup.bash" >> ~/.bashrc
   source ~/.bashrc
+
+
 
 ## Usage
 
