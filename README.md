@@ -38,9 +38,9 @@ We hard-coded the user name and folder path in the software, so you will need to
 
 - Build the ROS packages
   ```bash
-  cd /home/cairlab/CAIR_Imaging_System/ROS
+  cd /home/cairlab/CAIR_Imaging_System/PPB_Imaging
   catkin_make
-  cd /home/cairlab/CAIR_Imaging_System/ros_temp
+  cd /home/cairlab/CAIR_Imaging_System/PPB_GNSS
   catkin_make
   ```
   
@@ -49,8 +49,8 @@ We hard-coded the user name and folder path in the software, so you will need to
   ```bash
   echo "" >> ~/.bashrc
   echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-  echo "source /home/cairlab/CAIR_Imaging_System/ROS/devel/setup.sh" >> ~/.bashrc
-  echo "source /home/cairlab/CAIR_Imaging_System/ros_temp/devel/setup.bash" >> ~/.bashrc
+  echo "source /home/cairlab/CAIR_Imaging_System/PPB_Imaging/devel/setup.sh" >> ~/.bashrc
+  echo "source /home/cairlab/CAIR_Imaging_System/PPB_GNSS/devel/setup.bash" >> ~/.bashrc
   source ~/.bashrc
 
 
