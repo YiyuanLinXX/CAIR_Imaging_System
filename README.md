@@ -173,9 +173,13 @@ To use the 2 visualization adn conversion software, please firstly  make sure th
 
 In our basic setup, the data will be saved in `PGM` format which is gray scale optimized for efficient data collection. To convert the the images into `PNG` format which will be RGB, please **double click** `convert_pgm2png.bash` to run this simple software, and choose the input and output directory for the images data. Then click `Start` to convert the images from the input directory.
 
+**Note**: The image datasets will be in`/home/cairlab/Data` folder.
+
 
 
 We also provide a simple application to plot the trajectory by using the GPS data collected. You can **double click** `gps_trajectory_plot.bash` to run this simple software, and load the recorded GPS data from `/home/cairlab/Document/gps_data`. You can also save the plot on the computer.
+
+**Note**: The GPS data will be in`/home/cairlab/Documents/gps_data` folder.
 
 
 
