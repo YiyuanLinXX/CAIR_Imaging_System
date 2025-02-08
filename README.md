@@ -17,7 +17,7 @@ We hard-coded the user name and folder path in the software, so you will need to
 
 - Install [Spinnaker SDK](https://www.teledynevisionsolutions.com/support/support-center/software-firmware-downloads/iis/spinnaker-sdk-download/spinnaker-sdk--download-files/?pn=Spinnaker+SDK&vn=Spinnaker+SDK). If you are installing Spinnaker 2.6.0.160 (which is the version we used but not listed on the official website), you can also check the installation files for Ubuntu 20.04 in the folder `/spinnaker-2.6.0.160-amd64`.
 
-- Install [OpenCV 3.4.3](https://docs.opencv.org/3.4.3/) for C++.
+- Install [OpenCV 3.4.3](https://docs.opencv.org/3.4.3/d7/d9f/tutorial_linux_install.html) for C++.
 
 - Install packages for your ROS distro by running:
 
