@@ -184,3 +184,9 @@ We also provide a simple application to plot the trajectory by using the GPS dat
 
 
 For more details, please check the codebase in `/utils`.
+
+
+
+## Acknowledgement
+
+Special thanks to Xuan Liu, Aditya Raj, and Dr. Lie Tang for the hardware and software support.
