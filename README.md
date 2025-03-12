@@ -49,8 +49,8 @@ We hard-coded the user name and folder path in the software, so you will need to
   ```bash
   echo "" >> ~/.bashrc
   echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
-  echo "source /home/cairlab/CAIR_Imaging_System/PPB_Imaging/devel/setup.sh" >> ~/.bashrc
   echo "source /home/cairlab/CAIR_Imaging_System/PPB_GNSS/devel/setup.bash" >> ~/.bashrc
+  echo "source /home/cairlab/CAIR_Imaging_System/PPB_Imaging/devel/setup.sh" >> ~/.bashrc
   source ~/.bashrc
 
 
